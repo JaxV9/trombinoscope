@@ -1,0 +1,21 @@
+.buttonUi, .buttonUiIsLoading {
+    width: fit-content;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.buttonUi {
+    background-color: rgb(15, 198, 15);
+}
+
+.buttonUiIsLoading {
+    background-color: rgb(119, 119, 119);
+}
+
+.buttonUi:hover {
+    background-color: rgb(14, 168, 14);
+}
