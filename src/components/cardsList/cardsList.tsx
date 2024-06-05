@@ -1,7 +1,6 @@
 'use client';
 
 import { UserType } from "@/domain/model/user";
-import { url } from "inspector";
 import { useEffect, useState } from "react"
 import { Card } from "../card/card";
 import { Button } from "../ui/button/button";
@@ -50,6 +49,12 @@ export const CardsList = () => {
         fetchUsers()
     }
 
+    const deleteCard = (id: number) => {
+        const usersLessOne = [...users]
+        usersLessOne.splice(id,1)
+        setUsers(usersLessOne)
+    }
+
     useEffect(() => {
         fetchUsers()
     }, [])
@@ -82,14 +87,14 @@ export const CardsList = () => {
                     <div className="paramsList">
                         <label>Order by date of birth</label>
                         <select>
-                            <option value="increase">Increase</option>
-                            <option value="descrease">Decrease</option>
+                            <option value="ascending">Ascending</option>
+                            <option value="descending">Descending</option>
                         </select>
                     </div>
                 </div>
                 <span>{users.length} users</span>
                 <div className="cardsListContainer">
-                    <Card usersProps={users} />
+                    <Card usersProps={users} deletefuncProps={deleteCard}/>
                 </div>
                 <span>{users.length} users</span>
                 <Button functionProps={fetchMoreUsers} textProps="Load more" isLoadingProps={isLoading} />
