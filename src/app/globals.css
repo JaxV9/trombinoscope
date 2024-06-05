@@ -3,6 +3,7 @@
 
 /* components */
 @import url('../components/cardsList/style.css');
+@import url('../components/card/style.css');
 @import url('../components/ui/button/style.css');
 
 /* fonts */
