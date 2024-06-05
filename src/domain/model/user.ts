@@ -13,6 +13,10 @@ export type UserType = {
         medium: string,
         thumbnail: string
         },
+    dob: {
+        date: string,
+        age: number
+    },
     location: {
         street: {
             number: number,

@@ -12,6 +12,7 @@ export const CardsList = () => {
     const [userLimit, setUserLimit] = useState<number>(10)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [currentFilter, setCurrentFilter] = useState<string>("")
+    const [currentSort, setCurrentSort] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const fetchUsers = async (params?: string) => {
@@ -27,7 +28,7 @@ export const CardsList = () => {
         }
     }
 
-    const paramsFetchUser = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+    const filterFetchUser = async(e: React.ChangeEvent<HTMLSelectElement>) => {
 
         if(e.target.value === ""){
             setCurrentFilter("")
@@ -40,20 +41,37 @@ export const CardsList = () => {
         }
     }
 
-    const fetchMoreUsers = () => {
-        setCurrentPage(currentPage + 1)
-    }
-
     const handleChangeParams = async () => {
         setUsers([])
         fetchUsers()
     }
+
+    const sortFetchUser = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+
+        if(e.target.value === ""){
+            handleChangeParams()
+        }
+        if(e.target.value === "ascending"){
+            setUsers([...users].sort((a, b) => a.dob.age - b.dob.age))
+        }
+        if(e.target.value === "descending"){
+            setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
+        }
+    }
+
+    const fetchMoreUsers = () => {
+        setCurrentPage(currentPage + 1)
+    }
+
+
 
     const deleteCard = (id: number) => {
         const usersLessOne = [...users]
         usersLessOne.splice(id,1)
         setUsers(usersLessOne)
     }
+
+
 
     useEffect(() => {
         fetchUsers()
@@ -78,7 +96,7 @@ export const CardsList = () => {
                 <div className="paramsListContainer">
                     <div className="paramsList">
                         <label>Filter by gender</label>
-                        <select onChange={(e) => paramsFetchUser(e)}>
+                        <select onChange={(e) => filterFetchUser(e)}>
                             <option value="">All</option>
                             <option value="male">Men</option>
                             <option value="female">Women</option>
@@ -86,7 +104,8 @@ export const CardsList = () => {
                     </div>
                     <div className="paramsList">
                         <label>Order by date of birth</label>
-                        <select>
+                        <select onChange={(e) => sortFetchUser(e)}>
+                        <option value="">Don't sort</option>
                             <option value="ascending">Ascending</option>
                             <option value="descending">Descending</option>
                         </select>
