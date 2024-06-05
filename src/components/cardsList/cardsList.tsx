@@ -9,6 +9,7 @@ import { Button } from "../ui/button/button";
 export const CardsList = () => {
 
     const [users, setUsers] = useState<UserType[]>([])
+    const [userProcessing, setUserProcessing] = useState<UserType[]>([])
     const [userLimit, setUserLimit] = useState<number>(10)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [currentFilter, setCurrentFilter] = useState<string>("")
@@ -20,23 +21,27 @@ export const CardsList = () => {
             setIsLoading(true)
             let response = await fetch(`https://randomuser.me/api/?results=${userLimit}&page=${currentPage}&gender=${currentFilter}`, { cache: 'force-cache' })
             let data = await response.json()
-
-            setUsers(prevList => currentPage === 1 ? data.results : [...prevList, ...data.results]);
+            if(currentSort === ""){
+                setUsers(prevList => currentPage === 1 ? data.results : [...prevList, ...data.results]);
+            }
+            if(currentSort !== ""){
+                setUserProcessing([...users, ...data.results])
+            }
 
         } catch {
             console.log("error")
         }
     }
 
-    const filterFetchUser = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+    const filterFetchUser = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-        if(e.target.value === ""){
+        if (e.target.value === "") {
             setCurrentFilter("")
         }
-        if(e.target.value === "male"){
+        if (e.target.value === "male") {
             setCurrentFilter("male")
         }
-        if(e.target.value === "female"){
+        if (e.target.value === "female") {
             setCurrentFilter("female")
         }
     }
@@ -46,32 +51,24 @@ export const CardsList = () => {
         fetchUsers()
     }
 
-    const sortFetchUser = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+    const sortFetchUser = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-        if(e.target.value === ""){
-            handleChangeParams()
+        if (e.target.value === "") {
+            setCurrentSort("")
         }
-        if(e.target.value === "ascending"){
-            setUsers([...users].sort((a, b) => a.dob.age - b.dob.age))
+        if (e.target.value === "ascending") {
+            setCurrentSort("ascending")
         }
-        if(e.target.value === "descending"){
-            setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
+        if (e.target.value === "descending") {
+            setCurrentSort("descending")
         }
     }
-
-    const fetchMoreUsers = () => {
-        setCurrentPage(currentPage + 1)
-    }
-
-
 
     const deleteCard = (id: number) => {
         const usersLessOne = [...users]
-        usersLessOne.splice(id,1)
+        usersLessOne.splice(id, 1)
         setUsers(usersLessOne)
     }
-
-
 
     useEffect(() => {
         fetchUsers()
@@ -87,7 +84,28 @@ export const CardsList = () => {
 
     useEffect(() => {
         handleChangeParams()
-    },[currentFilter])
+    }, [currentFilter])
+
+    useEffect(() => {
+        if(currentSort === ""){
+            handleChangeParams()
+        }
+        if (currentSort === "ascending") {
+            setUsers([...users].sort((a, b) => a.dob.age - b.dob.age))
+        }
+        if (currentSort === "descending") {
+            setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
+        }
+    },[currentSort])
+
+    useEffect(() => {
+        if (currentSort === "ascending") {
+            setUsers([...userProcessing].sort((a, b) => a.dob.age - b.dob.age))
+        }
+        if (currentSort === "descending") {
+            setUsers([...userProcessing].sort((a, b) => b.dob.age - a.dob.age))
+        }
+    },[userProcessing])
 
 
     return (
@@ -105,7 +123,7 @@ export const CardsList = () => {
                     <div className="paramsList">
                         <label>Order by date of birth</label>
                         <select onChange={(e) => sortFetchUser(e)}>
-                        <option value="">Don't sort</option>
+                            <option value="">Don't sort</option>
                             <option value="ascending">Ascending</option>
                             <option value="descending">Descending</option>
                         </select>
@@ -113,10 +131,10 @@ export const CardsList = () => {
                 </div>
                 <span>{users.length} users</span>
                 <div className="cardsListContainer">
-                    <Card usersProps={users} deletefuncProps={deleteCard}/>
+                    <Card usersProps={users} deletefuncProps={deleteCard} />
                 </div>
                 <span>{users.length} users</span>
-                <Button functionProps={fetchMoreUsers} textProps="Load more" isLoadingProps={isLoading} />
+                <Button functionProps={()=> setCurrentPage(currentPage + 1)} textProps="Load more" isLoadingProps={isLoading} />
             </section>
         </>
     )
