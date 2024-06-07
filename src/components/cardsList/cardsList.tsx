@@ -9,7 +9,6 @@ import { Button } from "../ui/button/button";
 export const CardsList = () => {
 
     const [users, setUsers] = useState<UserType[]>([])
-    const [userProcessing, setUserProcessing] = useState<UserType[]>([])
     const [userLimit, setUserLimit] = useState<number>(10)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [currentFilter, setCurrentFilter] = useState<string>("")
@@ -24,8 +23,11 @@ export const CardsList = () => {
             if(currentSort === ""){
                 setUsers(prevList => currentPage === 1 ? data.results : [...prevList, ...data.results]);
             }
-            if(currentSort !== ""){
-                setUserProcessing([...users, ...data.results])
+            if (currentSort === "ascending") {
+                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => a.dob.age - b.dob.age))
+            }
+            if (currentSort === "descending") {
+                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => b.dob.age - a.dob.age))
             }
 
         } catch {
@@ -97,16 +99,6 @@ export const CardsList = () => {
             setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
         }
     },[currentSort])
-
-    useEffect(() => {
-        if (currentSort === "ascending") {
-            setUsers([...userProcessing].sort((a, b) => a.dob.age - b.dob.age))
-        }
-        if (currentSort === "descending") {
-            setUsers([...userProcessing].sort((a, b) => b.dob.age - a.dob.age))
-        }
-    },[userProcessing])
-
 
     return (
         <>
