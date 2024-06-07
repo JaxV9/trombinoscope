@@ -4,6 +4,7 @@ import { UserType } from "@/domain/model/user";
 import { useEffect, useState } from "react"
 import { Card } from "../card/card";
 import { Button } from "../ui/button/button";
+import { convertDateFormat } from "@/utils/formats";
 
 
 export const CardsList = () => {
@@ -20,7 +21,7 @@ export const CardsList = () => {
             setIsLoading(true)
             let response = await fetch(`https://randomuser.me/api/?results=${userLimit}&page=${currentPage}&gender=${currentFilter}`, { cache: 'force-cache' })
             let data = await response.json()
-            if(currentSort === ""){
+            if (currentSort === "") {
                 setUsers(prevList => currentPage === 1 ? data.results : [...prevList, ...data.results]);
             }
             if (currentSort === "ascending") {
@@ -89,7 +90,7 @@ export const CardsList = () => {
     }, [currentFilter])
 
     useEffect(() => {
-        if(currentSort === ""){
+        if (currentSort === "") {
             handleChangeParams()
         }
         if (currentSort === "ascending") {
@@ -98,7 +99,7 @@ export const CardsList = () => {
         if (currentSort === "descending") {
             setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
         }
-    },[currentSort])
+    }, [currentSort])
 
     return (
         <>
@@ -123,10 +124,14 @@ export const CardsList = () => {
                 </div>
                 <span>{users.length} users</span>
                 <div className="cardsListContainer">
-                    <Card usersProps={users} deletefuncProps={deleteCard} />
+                    {users.length > 0 ?
+                        users.map((user, index) =>
+                            <Card userProps={user} indexProps={index} deletefuncProps={deleteCard} />
+                        )
+                        : null}
                 </div>
                 <span>{users.length} users</span>
-                <Button functionProps={()=> setCurrentPage(currentPage + 1)} textProps="Load more" isLoadingProps={isLoading} />
+                <Button functionProps={() => setCurrentPage(currentPage + 1)} textProps="Load more" isLoadingProps={isLoading} />
             </section>
         </>
     )

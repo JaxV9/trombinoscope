@@ -1,31 +1,43 @@
 import { UserType } from "@/domain/model/user"
+import { convertDateFormat } from "@/utils/formats"
+import { useState } from "react"
 
 type CardPropsType = {
-    usersProps: UserType[],
+    userProps: UserType,
+    indexProps: number
     deletefuncProps: (index: number) => void
 }
 
-export const Card = ({ usersProps, deletefuncProps }: CardPropsType) => {
+export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) => {
+
+    const [currentInfo, setCurrentInfo] = useState<number>(0);
+
+    const infosArray = [
+        { key: "Hi, my name is", value: `${userProps.name.title} ${userProps.name.first}` },
+        { key: "My email address is", value: `${userProps.email}` },
+        { key: "My birthday is", value: `${convertDateFormat(userProps.dob.date)}` },
+        { key: "My address is", value: `${userProps.location.postcode} ${userProps.location.city} ${userProps.location.country}` },
+        { key: "My phone number is", value: `${userProps.phone}` }
+    ]
 
     return (
         <>
-            {usersProps.length > 0 ?
-                usersProps.map((user, index) => (
-                    <div className="card" key={index}>
-                        <div className="deleteCardBtn" onClick={() => deletefuncProps(index)}></div>
-                        <img className="profilImage" src={user.picture.medium} alt="" />
-                        {/* <p>{user.name.title} {user.name.first}</p>
-                        <p>{user.dob.age}</p> */}
-                        <div className="navCardContainer">
-                            <div className="userNameIcon"></div>
-                            <div className="userMailIcon"></div>
-                            <div className="userDobIcon"></div>
-                            <div className="userMapIcon"></div>
-                            <div className="userPhoneIcon"></div>
-                        </div>
-                    </div>
-                ))
-                : null}
+            <div className="card" key={indexProps}>
+                <div className="deleteCardBtn" onClick={() => deletefuncProps(indexProps)}></div>
+                <div className="copyCardBtn" onClick={() => { navigator.clipboard.writeText(infosArray[currentInfo].value) }}></div>
+                <img className="profilImage" src={userProps.picture.medium} alt="" />
+                <div className="infosContainer">
+                    <p className="infosKey">{infosArray[currentInfo].key}</p>
+                    <p className="infosText nameVal">{infosArray[currentInfo].value}</p>
+                </div>
+                <div className="navCardContainer">
+                    <div className="userNameIcon" onMouseEnter={() => setCurrentInfo(0)}></div>
+                    <div className="userMailIcon" onMouseEnter={() => setCurrentInfo(1)}></div>
+                    <div className="userDobIcon" onMouseEnter={() => setCurrentInfo(2)}></div>
+                    <div className="userMapIcon" onMouseEnter={() => setCurrentInfo(3)}></div>
+                    <div className="userPhoneIcon" onMouseEnter={() => setCurrentInfo(4)}></div>
+                </div>
+            </div>
         </>
     )
 }
