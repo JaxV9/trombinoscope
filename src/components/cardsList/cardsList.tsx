@@ -4,7 +4,6 @@ import { UserType } from "@/domain/model/user";
 import { useEffect, useState } from "react"
 import { Card } from "../card/card";
 import { Button } from "../ui/button/button";
-import { convertDateFormat } from "@/utils/formats";
 
 
 export const CardsList = () => {
@@ -116,7 +115,7 @@ export const CardsList = () => {
                     <div className="paramsList">
                         <label>Order by date of birth</label>
                         <select onChange={(e) => sortFetchUser(e)}>
-                            <option value="">Don't sort</option>
+                            <option value="">Don&apos;t sort</option>
                             <option value="ascending">Ascending</option>
                             <option value="descending">Descending</option>
                         </select>
