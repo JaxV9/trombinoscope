@@ -126,7 +126,9 @@ export const CardsList = () => {
                 <div className="cardsListContainer">
                     {users.length > 0 ?
                         users.map((user, index) =>
-                            <Card userProps={user} indexProps={index} deletefuncProps={deleteCard} />
+                            <div key={index}>
+                                <Card userProps={user} indexProps={index} deletefuncProps={deleteCard} />
+                            </div>
                         )
                         : null}
                 </div>

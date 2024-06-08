@@ -5,6 +5,8 @@
 @import url('../components/cardsList/style.css');
 @import url('../components/card/style.css');
 @import url('../components/ui/button/style.css');
+@import url('../components/header/style.css');
+@import url('../components/ui/darkAndLightBtn/style.css');
 
 /* fonts */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
@@ -12,11 +14,46 @@
 
 body {
     margin: 0;
-    background-color: #FEFDFD;
     font-family: "IBM Plex Sans", sans-serif;
 }
 
-h1, p {
+.darkModeBg {
+    background-color: #2F2F2F;
+    transition: background-color 0.2s;
+}
+
+.darkModeTxt {
+    color: #E2E2E2;
+    transition: color 0.1s;
+}
+
+
+.lightModeBg {
+    background-color: #fcfbfb;
+    transition: background-color 0.2s;
+}
+
+.lightModeTxt {
+    color: #2F2F2F;
+    transition: color 0.2s;
+}
+
+.darkModeBg main {
+    background-color: #2F2F2F;
+    transition: background-color 0.2s;
+}
+
+.lightModeBg main {
+    background-color: #fcfbfb;
+    transition: background-color 0.2s;
+}
+
+.lightModeTxt h1, .lightModeTxt p {
+    font-family: "IBM Plex Sans", sans-serif;
+    color: #E2E2E2;
+}
+
+.lightModeTxt h1, .lightModeTxt p {
     font-family: "IBM Plex Sans", sans-serif;
     color: #2F2F2F;
 }

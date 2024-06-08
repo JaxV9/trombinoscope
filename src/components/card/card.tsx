@@ -1,6 +1,7 @@
+import LightAndDarkModeContext from "@/context/lightAndDarkMode"
 import { UserType } from "@/domain/model/user"
 import { convertDateFormat } from "@/utils/formats"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 type CardPropsType = {
     userProps: UserType,
@@ -10,6 +11,7 @@ type CardPropsType = {
 
 export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) => {
 
+    const { isDark } = useContext(LightAndDarkModeContext)!;
     const [currentInfo, setCurrentInfo] = useState<number>(0);
 
     const infosArray = [
@@ -22,13 +24,13 @@ export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) 
 
     return (
         <>
-            <div className="card" key={indexProps}>
+            <div className="card">
                 <div className="deleteCardBtn" onClick={() => deletefuncProps(indexProps)}></div>
                 <div className="copyCardBtn" onClick={() => { navigator.clipboard.writeText(infosArray[currentInfo].value) }}></div>
                 <img className="profilImage" src={userProps.picture.medium} alt="" />
                 <div className="infosContainer">
                     <p className="infosKey">{infosArray[currentInfo].key}</p>
-                    <p className="infosText nameVal">{infosArray[currentInfo].value}</p>
+                    <p className="infosText">{infosArray[currentInfo].value}</p>
                 </div>
                 <div className="navCardContainer">
                     <div className="userNameIcon" onMouseEnter={() => setCurrentInfo(0)}></div>

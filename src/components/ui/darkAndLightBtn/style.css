@@ -1,0 +1,17 @@
+.darkAndLightBtn {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    cursor: pointer;
+    transition: all ease 0.2s;
+}
+
+.darkAndLightBtn:hover {
+    transition: all ease 0.2s;
+    scale: 1.1 ;
+}
