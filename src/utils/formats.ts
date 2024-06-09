@@ -8,3 +8,13 @@ export const convertDateFormat = (currentDate: string) => {
     const dateFormated = `${day}/${month}/${year}`
     return dateFormated
 }
+
+export const diffBetweenTwoDates = (currentDate1: string, currentDate2: string) => {
+    const date1 = new Date(currentDate1)
+    console.log(date1)
+    const date2 = new Date(currentDate2)
+    console.log(date2)
+    const diff = date1.getTime() - date2.getTime()
+    console.log(diff)
+    return diff
+}

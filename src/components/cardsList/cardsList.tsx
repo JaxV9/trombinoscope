@@ -4,6 +4,7 @@ import { UserType } from "@/domain/model/user";
 import { useEffect, useState } from "react"
 import { Card } from "../card/card";
 import { Button } from "../ui/button/button";
+import { diffBetweenTwoDates } from "@/utils/formats";
 
 
 export const CardsList = () => {
@@ -24,10 +25,10 @@ export const CardsList = () => {
                 setUsers(prevList => currentPage === 1 ? data.results : [...prevList, ...data.results]);
             }
             if (currentSort === "ascending") {
-                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => a.dob.age - b.dob.age))
+                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => diffBetweenTwoDates(b.dob.date.toString(), a.dob.date.toString())))
             }
             if (currentSort === "descending") {
-                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => b.dob.age - a.dob.age))
+                setUsers(prevList => [...prevList, ...data.results].sort((a, b) => diffBetweenTwoDates(a.dob.date.toString(), b.dob.date.toString())))
             }
 
         } catch {
@@ -93,10 +94,10 @@ export const CardsList = () => {
             handleChangeParams()
         }
         if (currentSort === "ascending") {
-            setUsers([...users].sort((a, b) => a.dob.age - b.dob.age))
+            setUsers([...users].sort((a, b) => diffBetweenTwoDates(b.dob.date.toString(), a.dob.date.toString())))
         }
         if (currentSort === "descending") {
-            setUsers([...users].sort((a, b) => b.dob.age - a.dob.age))
+            setUsers([...users].sort((a, b) => diffBetweenTwoDates(a.dob.date.toString() ,b.dob.date.toString())))
         }
     }, [currentSort])
 

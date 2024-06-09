@@ -29,14 +29,14 @@
 @media (max-width: 500px) {
 
     .darkAndLightBtn {
-        top: 10px;
+        top: 5px;
     }
 }
 
 @media (max-width: 320px) {
 
     .darkAndLightBtn {
-        top: 5px;
+        top: 2px;
     }
 
 }

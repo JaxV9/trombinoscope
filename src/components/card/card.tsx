@@ -15,7 +15,7 @@ export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) 
     const [currentInfo, setCurrentInfo] = useState<number>(0);
 
     const infosArray = [
-        { key: "Hi, my name is", value: `${userProps.name.title} ${userProps.name.first}` },
+        { key: "Hi, my name is", value: `${userProps.dob.age} - ${convertDateFormat(userProps.dob.date)}` },
         { key: "My email address is", value: `${userProps.email}` },
         { key: "My birthday is", value: `${convertDateFormat(userProps.dob.date)}` },
         { key: "My address is", value: `${userProps.location.postcode} ${userProps.location.city} ${userProps.location.country}` },
