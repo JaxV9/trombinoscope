@@ -39,22 +39,22 @@ export const CardsList = () => {
         }
     }
 
+    const applyFilter = (value: string) => {
+        setCurrentFilter(value)
+        setPopUp(true)
+        setPopUpMessage("The list is reset")
+    }
+
     const filterFetchUser = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 
         if (e.target.value === "") {
-            setCurrentFilter("")
-            setPopUp(true)
-            setPopUpMessage("The list is reset")
+            applyFilter("")
         }
         if (e.target.value === "male") {
-            setCurrentFilter("male")
-            setPopUp(true)
-            setPopUpMessage("The list is reset")
+            applyFilter("male")
         }
         if (e.target.value === "female") {
-            setCurrentFilter("female")
-            setPopUp(true)
-            setPopUpMessage("The list is reset")
+            applyFilter("female")
         }
     }
 

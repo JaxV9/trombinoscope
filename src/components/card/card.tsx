@@ -1,7 +1,7 @@
-import LightAndDarkModeContext from "@/context/lightAndDarkMode"
 import { UserType } from "@/domain/model/user"
 import { convertDateFormat } from "@/utils/formats"
-import { useContext, useState } from "react"
+import { useState } from "react"
+import { Popup } from "../popUp/popup"
 
 type CardPropsType = {
     userProps: UserType,
@@ -11,8 +11,9 @@ type CardPropsType = {
 
 export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) => {
 
-    const { isDark } = useContext(LightAndDarkModeContext)!;
     const [currentInfo, setCurrentInfo] = useState<number>(0);
+    const [popUp, setPopUp] = useState<boolean>(false)
+    const [popUpMessage, setPopUpMessage] = useState<string>("")
 
     const infosArray = [
         { key: "Hi, my name is", value: `${userProps.name.title} ${userProps.name.first}` },
@@ -22,11 +23,23 @@ export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) 
         { key: "My phone number is", value: `${userProps.phone}` }
     ]
 
+    const handleCopyUserValue = () =>{
+        navigator.clipboard.writeText(infosArray[currentInfo].value)
+        setPopUp(true)
+        setPopUpMessage("Save on your clipboard")
+    }
+
     return (
         <>
+            {
+                popUp ?
+                    <Popup messageProps={popUpMessage} setMessageProps={setPopUpMessage} isEnabledProps={true} setIsEnabledProps={setPopUp} />
+                    :
+                    null
+            }
             <div className="card">
                 <div className="deleteCardBtn" onClick={() => deletefuncProps(indexProps)}></div>
-                <div className="copyCardBtn" onClick={() => { navigator.clipboard.writeText(infosArray[currentInfo].value) }}></div>
+                <div className="copyCardBtn" onClick={handleCopyUserValue}></div>
                 <img className="profilImage" src={userProps.picture.medium} alt="" />
                 <div className="infosContainer">
                     <p className="infosKey">{infosArray[currentInfo].key}</p>

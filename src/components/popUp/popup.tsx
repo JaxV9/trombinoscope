@@ -30,8 +30,11 @@ export const Popup = ({ messageProps, setMessageProps, isEnabledProps, setIsEnab
         <>
             {
                 isEnabledProps ?
-                    <div className={isFadeOut ? "popUpContainerFadeOut" : "popUpContainer"}>
-                        <p>{messageProps}</p>
+                    <div className={isFadeOut ? "popUpContainerFadeOut" : "popUpContainer"}
+                    style={isDark ? {backgroundColor: "#fcfbfb"} : {backgroundColor: "#2F2F2F"}}>
+                        <p style={isDark ? {color: "#2F2F2F"} : {color: "#fcfbfb"}}>
+                            {messageProps}
+                        </p>
                     </div>
                     :
                     null
