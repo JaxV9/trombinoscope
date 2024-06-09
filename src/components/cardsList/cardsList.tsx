@@ -39,7 +39,7 @@ export const CardsList = () => {
         }
     }
 
-    const applyFilter = (value: string) => {
+    const applyFilter = async (value: string) => {
         setCurrentFilter(value)
         setPopUp(true)
         setPopUpMessage("The list is reset")

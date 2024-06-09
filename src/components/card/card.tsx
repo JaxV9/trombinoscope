@@ -23,10 +23,16 @@ export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) 
         { key: "My phone number is", value: `${userProps.phone}` }
     ]
 
-    const handleCopyUserValue = () =>{
+    const handleCopyUserValue = async () =>{
         navigator.clipboard.writeText(infosArray[currentInfo].value)
         setPopUp(true)
         setPopUpMessage("Save on your clipboard")
+    }
+
+    const handleUserDeleted = async () =>{
+        deletefuncProps(indexProps)
+        setPopUp(true)
+        setPopUpMessage("User deleted")
     }
 
     return (
@@ -38,7 +44,7 @@ export const Card = ({ userProps, indexProps, deletefuncProps }: CardPropsType) 
                     null
             }
             <div className="card">
-                <div className="deleteCardBtn" onClick={() => deletefuncProps(indexProps)}></div>
+                <div className="deleteCardBtn" onClick={handleUserDeleted}></div>
                 <div className="copyCardBtn" onClick={handleCopyUserValue}></div>
                 <img className="profilImage" src={userProps.picture.medium} alt="" />
                 <div className="infosContainer">
