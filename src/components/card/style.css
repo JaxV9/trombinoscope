@@ -160,3 +160,20 @@
 .display {
     display: block;
 }
+
+@media (max-width: 500px) {
+
+    .copyCardBtn {
+        background-image: url(/assets/copyIconFocused.svg);
+        transition: all ease 0.2s;
+    }
+
+    .deleteCardBtn {
+        background-image: url(/assets/trashFocus.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        transition: all ease 0.2s;
+    }
+
+}
