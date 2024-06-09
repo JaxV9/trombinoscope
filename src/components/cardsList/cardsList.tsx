@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { Card } from "../card/card";
 import { Button } from "../ui/button/button";
 import { diffBetweenTwoDates } from "@/utils/formats";
+import { Popup } from "../popUp/popup";
 
 
 export const CardsList = () => {
@@ -15,6 +16,8 @@ export const CardsList = () => {
     const [currentFilter, setCurrentFilter] = useState<string>("")
     const [currentSort, setCurrentSort] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [popUp, setPopUp] = useState<boolean>(false)
+    const [popUpMessage, setPopUpMessage] = useState<string>("")
 
     const fetchUsers = async (params?: string) => {
         try {
@@ -30,9 +33,9 @@ export const CardsList = () => {
             if (currentSort === "descending") {
                 setUsers(prevList => [...prevList, ...data.results].sort((a, b) => diffBetweenTwoDates(a.dob.date.toString(), b.dob.date.toString())))
             }
-
         } catch {
-            console.log("error")
+            setPopUp(true)
+            setPopUpMessage("An error occured")
         }
     }
 
@@ -40,12 +43,18 @@ export const CardsList = () => {
 
         if (e.target.value === "") {
             setCurrentFilter("")
+            setPopUp(true)
+            setPopUpMessage("The list is reset")
         }
         if (e.target.value === "male") {
             setCurrentFilter("male")
+            setPopUp(true)
+            setPopUpMessage("The list is reset")
         }
         if (e.target.value === "female") {
             setCurrentFilter("female")
+            setPopUp(true)
+            setPopUpMessage("The list is reset")
         }
     }
 
@@ -123,6 +132,12 @@ export const CardsList = () => {
                     </div>
                 </div>
                 <span>{users.length} users</span>
+                {
+                    popUp ?
+                    <Popup messageProps={popUpMessage} setMessageProps={setPopUpMessage} isEnabledProps={true} setIsEnabledProps={setPopUp} />
+                    :
+                    null
+                }
                 <div className="cardsListContainer">
                     {users.length > 0 ?
                         users.map((user, index) =>
